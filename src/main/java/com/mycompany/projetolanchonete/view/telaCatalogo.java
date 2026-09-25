@@ -2,23 +2,55 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package com.mycompany.projetolanchonete.view;
+
+import com.mycompany.projetolanchonete.dao.ProdutoDao;
+import com.mycompany.projetolanchonete.model.Produto;
+import com.mycompany.projetolanchonete.model.Usuario;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author aluno.saolucas
  */
-public class telaCatalogoAdmin extends javax.swing.JFrame {
+public class TelaCatalogo extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(telaCatalogoAdmin.class.getName());
+     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaCatalogo.class.getName());
+    private Usuario usuarioLogado;
+    private List<Produto> listaProdutos = new ArrayList<>();
 
     /**
      * Creates new form telaCatalogoAdmin
      */
-    public telaCatalogoAdmin() {
+     public TelaCatalogo() {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("Catálogo - Lanchonete");
+        carregarTabela();
     }
+    
+    public void setUsuarioLogado(Usuario usuario) {
+        this.usuarioLogado = usuario;
+    }
+    
+    private void carregarTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
+        listaProdutos = new ProdutoDao().listar();
 
+        for (Produto p : listaProdutos) {
+            modelo.addRow(new Object[]{
+                p.getNome(),
+                p.getCategoria(),
+                String.format("R$ %.2f", p.getPreco())
+            });
+            
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,13 +75,11 @@ public class telaCatalogoAdmin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         jToggleButton4 = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,23 +145,6 @@ public class telaCatalogoAdmin extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jToggleButton1.setBackground(new java.awt.Color(255, 102, 0));
-        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton1.setText("Cadastrar Produto");
-        jToggleButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jToggleButton2.setBackground(new java.awt.Color(255, 102, 51));
-        jToggleButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton2.setText("Deletar Produto");
-        jToggleButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jToggleButton2.addActionListener(this::jToggleButton2ActionPerformed);
-
-        jToggleButton3.setBackground(new java.awt.Color(255, 102, 0));
-        jToggleButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton3.setText("Atualizar Produto");
-        jToggleButton3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jToggleButton3.addActionListener(this::jToggleButton3ActionPerformed);
-
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jToggleButton4.setBackground(new java.awt.Color(255, 102, 0));
@@ -144,11 +157,18 @@ public class telaCatalogoAdmin extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
         jLabel2.setText("Faça a seleção de seus lanches para poder realizar seu pedido");
 
+        jTextField1.setEditable(false);
         jTextField1.setBackground(new java.awt.Color(255, 153, 0));
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(255, 255, 255));
         jTextField1.setText("REALIZE O PEDIDO DOS SEUS SONHOS");
         jTextField1.addActionListener(this::jTextField1ActionPerformed);
+
+        jToggleButton1.setBackground(new java.awt.Color(204, 51, 0));
+        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jToggleButton1.setText("Sair");
+        jToggleButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jToggleButton1.addActionListener(this::jToggleButton1ActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,45 +176,41 @@ public class telaCatalogoAdmin extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jToggleButton1)
-                .addGap(72, 72, 72)
-                .addComponent(jToggleButton2)
-                .addGap(69, 69, 69)
-                .addComponent(jToggleButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addGap(278, 278, 278)
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(83, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(239, 239, 239))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(160, 160, 160))
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(80, 80, 80))))
+                        .addGap(79, 79, 79))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 13, Short.MAX_VALUE)
+                .addContainerGap(10, Short.MAX_VALUE)
+                .addComponent(jToggleButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jToggleButton2)
-                    .addComponent(jToggleButton3)
-                    .addComponent(jToggleButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jToggleButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -212,20 +228,36 @@ public class telaCatalogoAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
-        // TODO add your handling code here:
+        int[] linhas = jTable1.getSelectedRows();
+
+        if (linhas.length == 0) {
+            JOptionPane.showMessageDialog(this, "Selecione pelo menos um produto na tabela!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<Produto> selecionados = new ArrayList<>();
+        for (int linha : linhas) {
+            selecionados.add(listaProdutos.get(linha));
+        }
+
+        TelaFinal finalTela = new TelaFinal();
+        finalTela.setUsuarioLogado(usuarioLogado);
+        finalTela.setProdutosSelecionados(selecionados);
+        finalTela.setVisible(true);
+        this.dispose();
+        
+        
     }//GEN-LAST:event_jToggleButton4ActionPerformed
-
-    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton3ActionPerformed
-
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        this.dispose();
+    TelaLogin login = new TelaLogin();
+    login.setVisible(true);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,7 +281,7 @@ public class telaCatalogoAdmin extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new telaCatalogoAdmin().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new TelaCatalogo().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -272,8 +304,9 @@ public class telaCatalogoAdmin extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton jToggleButton4;
     // End of variables declaration//GEN-END:variables
-}
+
+     // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+

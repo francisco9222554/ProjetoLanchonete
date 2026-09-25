@@ -2,20 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package com.mycompany.projetolanchonete.view;
+
+import com.mycompany.projetolanchonete.dao.UsuarioDao;
+import com.mycompany.projetolanchonete.model.Usuario;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author aluno.saolucas
  */
-public class telaLogin extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(telaLogin.class.getName());
+public class TelaLogin extends javax.swing.JFrame {
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaLogin.class.getName());
 
     /**
-     * Creates new form telaLogin
+     * Creates new form TelaLogin
      */
-    public telaLogin() {
+    public TelaLogin() {
         initComponents();
     }
 
@@ -43,7 +47,6 @@ public class telaLogin extends javax.swing.JFrame {
 
         jTextField1.setBackground(new java.awt.Color(204, 204, 204));
         jTextField1.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField1.setText("Insira seu email");
         jTextField1.addActionListener(this::jTextField1ActionPerformed);
 
         jLabel2.setForeground(new java.awt.Color(255, 102, 0));
@@ -54,7 +57,6 @@ public class telaLogin extends javax.swing.JFrame {
 
         jTextField2.setBackground(new java.awt.Color(204, 204, 204));
         jTextField2.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField2.setText("Insira sua senha");
         jTextField2.addActionListener(this::jTextField2ActionPerformed);
 
         jToggleButton1.setBackground(new java.awt.Color(255, 102, 0));
@@ -63,6 +65,7 @@ public class telaLogin extends javax.swing.JFrame {
         jToggleButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jToggleButton1.addActionListener(this::jToggleButton1ActionPerformed);
 
+        jTextField3.setEditable(false);
         jTextField3.setBackground(new java.awt.Color(255, 153, 0));
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextField3.setForeground(new java.awt.Color(255, 255, 255));
@@ -79,8 +82,8 @@ public class telaLogin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(120, 120, 120)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField2)
@@ -91,13 +94,14 @@ public class telaLogin extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(87, 87, 87))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(95, 95, 95))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(53, Short.MAX_VALUE)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(109, 109, 109))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,11 +138,53 @@ public class telaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+        
+
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
+        String email = jTextField1.getText().trim();
+        String senha = jTextField2.getText().trim();
+
+        if (email.isEmpty() || senha.isEmpty()
+                || email.equals("Insira seu email") || senha.equals("Insira sua senha")) {
+            JOptionPane.showMessageDialog(this, "Preencha e-mail e senha!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        UsuarioDao dao = new UsuarioDao();
+        Usuario user = dao.login(email, senha);
+
+        if (user != null) {
+            JOptionPane.showMessageDialog(this, "Login realizado com sucesso!\nBem-vindo(a), " + user.getNome());
+            this.dispose();
+
+            if ("ADMIN".equalsIgnoreCase(user.getTipo())) {
+                new TelaCatalogoAdmin().setVisible(true);
+            } else {
+                TelaCatalogo catalogo = new TelaCatalogo();
+                catalogo.setUsuarioLogado(user);
+                catalogo.setVisible(true);
+            }
+        } else {
+            int opcao = JOptionPane.showConfirmDialog(this,
+                    "Usuário não encontrado.\nDeseja se cadastrar como cliente?",
+                    "Cadastro", JOptionPane.YES_NO_OPTION);
+
+            if (opcao == JOptionPane.YES_OPTION) {
+                String nome = JOptionPane.showInputDialog(this, "Digite seu nome completo:");
+                if (nome != null && !nome.trim().isEmpty()) {
+                    Usuario novo = new Usuario(email, senha, "CLIENTE", nome.trim());
+                    if (dao.cadastrar(novo)) {
+                        JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!\nFaça login novamente.");
+                        jTextField1.setText("Insira seu email");
+                        jTextField2.setText("Insira sua senha");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Este e-mail já está cadastrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -171,7 +217,7 @@ public class telaLogin extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new telaLogin().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new TelaLogin().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

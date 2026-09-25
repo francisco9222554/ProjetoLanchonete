@@ -1,16 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
+import com.mycompany.projetolanchonete.dao.Conexao;
+import com.mycompany.projetolanchonete.view.TelaLogin;
 
-package com.mycompany.projetolanchonete;
-
-/**
- *
- * @author aluno.saolucas
- */
 public class ProjetoLanchonete {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Conexao.inicializarBanco();
+
+        TelaLogin tela_Login = new TelaLogin();
+        tela_Login.setVisible(true);
     }
 }
