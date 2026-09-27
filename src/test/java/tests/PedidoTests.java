@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package tests;
+
 import com.mycompany.projetolanchonete.model.Pedido;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  *
  * @author aluno.saolucas
@@ -13,8 +11,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PedidoTests {
     
     @Test
-    void PedidoCompleto(){
-        Pedido pedido = new Pedido(1, 4, "Luis Felipe", "984532134", "99944433322", "98453-343", "Avenida João Pereira", "405", "Camboim", "Apartamento 1", 40, 8); 
+    void PedidoCompleto() {
+        Pedido pedido = new Pedido();
+        
+        pedido.setId(1);
+        pedido.setIdUsuario(4);
+        pedido.setNomeCliente("Luis Felipe");
+        pedido.setTelefone("984532134");
+        pedido.setCpf("99944433322");
+        pedido.setCep("98453-343");
+        pedido.setRua("Avenida João Pereira");
+        pedido.setNumero("405");
+        pedido.setBairro("Camboim");
+        pedido.setComplemento("Apartamento 1");
+        pedido.setValorTotal(43.0);
+        pedido.setFrete(8.0);
         
         assertEquals(1, pedido.getId());
         assertEquals(4, pedido.getIdUsuario());
@@ -26,8 +37,7 @@ public class PedidoTests {
         assertEquals("405", pedido.getNumero());
         assertEquals("Camboim", pedido.getBairro());
         assertEquals("Apartamento 1", pedido.getComplemento());
-        assertEquals(40, pedido.getValorTotal());
-        assertEquals(8, pedido.getFrete());
-        
+        assertEquals(43.0, pedido.getValorTotal());
+        assertEquals(8.0, pedido.getFrete());
     }
 }
