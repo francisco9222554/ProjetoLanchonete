@@ -14,7 +14,7 @@ public class ItemPedidoTests {
     
     @Test
     void ItemPedidoCompleto(){
-        ItemPedido itempedido = new ItemPedido(4, "Xis Salada", 29, 1);
+        ItemPedido itempedido = new ItemPedido(4, "Xis Salada", 29, 5);
         
         assertEquals(4, itempedido.getIdProduto());
         assertEquals("Xis Salada", itempedido.getNomeProduto());
