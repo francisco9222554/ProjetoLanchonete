@@ -23,7 +23,7 @@ public class TelaCatalogo extends javax.swing.JFrame {
     private List<Produto> listaProdutos = new ArrayList<>();
 
     /**
-     * Creates new form telaCatalogoAdmin
+     * Creates new form TelaCatalogoAdmin
      */
      public TelaCatalogo() {
         initComponents();
