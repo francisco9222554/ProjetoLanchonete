@@ -32,7 +32,7 @@ jobs:
           javac -version
 
       - name: Compilar projeto
-        run: mvn clean compile
+        run: mvn clean compile -Dmaven.compiler.release=17
 
       - name: Executar testes unitários
         run: mvn test
