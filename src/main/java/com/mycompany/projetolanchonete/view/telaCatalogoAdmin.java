@@ -371,6 +371,7 @@ public class TelaCatalogoAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // Botão e Cadastrar
         try {
         String nome = jTextField2.getText().trim();
         String categoria = jTextField3.getText().trim();

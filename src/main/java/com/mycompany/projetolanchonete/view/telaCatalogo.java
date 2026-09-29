@@ -26,6 +26,7 @@ public class TelaCatalogo extends javax.swing.JFrame {
      * Creates new form TelaCatalogoAdmin
      */
      public TelaCatalogo() {
+         // Primeira função
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Catálogo - Lanchonete");
